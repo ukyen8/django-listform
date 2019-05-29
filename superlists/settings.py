@@ -25,7 +25,7 @@ SECRET_KEY = '1!&%-iu+7t$pvur&!x0x@3%gc@5##53@fum%x3dy!q^$fzjlx$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [" superlists-dev.ap-northeast-1.elasticbeanstalk.com "]
 
 
 # Application definition
