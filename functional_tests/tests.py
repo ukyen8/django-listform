@@ -2,14 +2,28 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 # from django.test import LiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-import time
+import time, sys
 import unittest
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        for arg in sys.argv:
+            if 'liveserver' in arg:
+                cls.server_url = 'http://' + arg.split('=')[1]
+                return
+        super().setUpClass()
+        cls.server_url = cls.live_server_url
+
     def setUp(self):
         self.browser = webdriver.Firefox()
+
+    # @classmethod
+    # def tearDownClass(cls):
+    #     if cls.server_url == cls.live_server_url:
+    #         super().tearDownClass()
 
     def tearDown(self):
         self.browser.quit()
@@ -52,7 +66,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-        # time.sleep(1)
+        time.sleep(1)
 
         # The page updates again, and now shows both items on her list
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
