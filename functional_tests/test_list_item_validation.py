@@ -1,5 +1,6 @@
 from selenium.webdriver.common.keys import Keys
 from .base import FunctionalTest
+import time
 
 
 class ItemValidationTest(FunctionalTest):
@@ -9,6 +10,7 @@ class ItemValidationTest(FunctionalTest):
         # an empty list item. She hits Enter on the empty input box
         self.browser.get(self.server_url)
         self.browser.find_element_by_id('id_new_item').send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # The home page refreshes, and there is an error message saying
         # that list items cannot be blank
