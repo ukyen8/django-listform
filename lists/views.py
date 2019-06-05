@@ -11,13 +11,20 @@ def home_page(request):
 
 def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)
+    print("list_id : ", list_id)
     form = ItemForm()
-    if request.method == "POST":
+    if request.method == 'POST':
+        print(request.POST)
         form = ItemForm(data=request.POST)
+        print("form is post ", form, form.is_valid())
         if form.is_valid():
-            Item.objects.create(text=request.POST['text'], list=list_)
+            print("form redirect ", list_)
+            form.save(for_list=list_)
+            print("finish form save ", list_)
             return redirect(list_)
-    return render(request, 'list.html', {'list': list_, 'form': form})
+    print("form is get ", form, form.is_valid())
+    print("finish view")
+    return render(request, 'list.html', {'list': list_, "form": form})
 
 
 def new_list(request):
@@ -25,7 +32,6 @@ def new_list(request):
     if form.is_valid():
         list_ = List.objects.create()
         form.save(for_list=list_)
-        # Item.objects.create(text=request.POST['text'], list=list_)
         return redirect(list_)
     else:
         return render(request, 'home.html', {"form": form})

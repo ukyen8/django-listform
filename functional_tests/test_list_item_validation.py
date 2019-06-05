@@ -50,19 +50,16 @@ class ItemValidationTest(FunctionalTest):
         self.browser.get(self.server_url)
         self.get_item_input_box().send_keys('Buy wellies')
         self.get_item_input_box().send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Buy wellies')
 
+        self.wait_for_row_in_list_table('1: Buy wellies')
+        time.sleep(1)
         # She accidentally tries to enter a duplicate item
         self.get_item_input_box().send_keys('Buy wellies')
-
-        self.wait_for_row_in_list_table('1: Buy wellies')
-        error = self.browser.find_element_by_css_selector('.has_error')
-        self.assertEqual(error.text, "You've already got this in your list")
-        # self.get_item_input_box().send_keys(Keys.ENTER)
-        #
-        # # She sees a helpful error message
-        # self.wait_for(lambda: self.assertEqual(
-        #     self.browser.find_element_by_css_selector('.has-error').text,
-        #     "You've already got this in your list"
-        # ))
+        self.get_item_input_box().send_keys(Keys.ENTER)
+        time.sleep(100)
+        # She sees a helpful error message
+        self.wait_for(lambda: self.assertEqual(
+            self.browser.find_element_by_css_selector('.has-error').text,
+            "You've already got this in your list"
+        ))
 
